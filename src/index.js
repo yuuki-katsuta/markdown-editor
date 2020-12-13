@@ -1,1 +1,1 @@
-console.log('hello, webpack!!')
+console.log('Hello, Webpack + TypeScript!')
