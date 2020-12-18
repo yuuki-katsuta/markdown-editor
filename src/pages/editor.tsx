@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useState} from 'react'
 import styled from 'styled-components'
 
 //スタイリングされたコンポーネント作成
@@ -44,7 +45,15 @@ const Preview = styled.div`
   top: 0;
   width: 50vw;
 `
+//localStorage でデータの参照・保存に使うキー名を決める
+//ファイルパス:値の名前 という命名規則
+const StorageKey = 'pages/editor:text'
+
 export const Editor: React.FC = () => {
+  //localStorage から取得した値を useState の初期値に設定(アクセス時に保存されている値を取り出して表示)
+  //nullを帰す場合、空の文字列を設定
+  const [text, setText] = useState<string>(localStorage.getItem(StorageKey) || '')
+
   //React.FC（関数コンポーネント）という型を定義
   return (
     <>
@@ -52,7 +61,15 @@ export const Editor: React.FC = () => {
         Markdown Editor
       </Header>
       <Wrapper>
-        <TextArea value="テキスト入力エリア"/>
+        <TextArea
+          onChange={(e) => {
+            const changedText = e.target.value
+            //変更されるたびに localStorage へ保存する
+            localStorage.setItem(StorageKey, changedText)
+            setText(changedText)
+          }}
+          value={text}
+        />
         <Preview>プレビューエリア</Preview>
       </Wrapper>
     </>
