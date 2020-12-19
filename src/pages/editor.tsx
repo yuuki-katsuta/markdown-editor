@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useState} from 'react'
 import styled from 'styled-components'
+import * as ReactMarkdown from 'react-markdown'
 
 //スタイリングされたコンポーネント作成
 //styled.(HTMLタグ名) で生成したい HTML タグを指定して、その後続く `` 内にCSSを記述する
@@ -70,7 +71,9 @@ export const Editor: React.FC = () => {
           }}
           value={text}
         />
-        <Preview>プレビューエリア</Preview>
+        <Preview>
+          <ReactMarkdown source={text} />
+        </Preview>
       </Wrapper>
     </>
   )
