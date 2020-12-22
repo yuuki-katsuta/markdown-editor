@@ -3,7 +3,8 @@ import {useState} from 'react'
 import styled from 'styled-components'
 import * as ReactMarkdown from 'react-markdown'
 import { putMemo } from '../indexeddb/memos'
-import {Button} from '../components/button'
+import { Button } from '../components/button'
+import { SaveModal } from '../components/save_modal'
 
 //スタイリングされたコンポーネント作成
 //styled.(HTMLタグ名) で生成したい HTML タグを指定して、その後続く `` 内にCSSを記述する
@@ -69,16 +70,19 @@ export const Editor: React.FC = () => {
   const [text, setText] = useState<string>(localStorage.getItem(StorageKey) || '')
 
   //saveMemoはindexeddbへの保存処理
-  const saveMemo = (): void => {
-    putMemo('TITLE', text)
-  }
+  // const saveMemo = (): void => {
+  //   putMemo('TITLE', text)
+  // }
+
+  //モーダルを表示するかどうかの状態
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <>
       <Header>
         Markdown Editor
         <HeaderControl>
-          <Button onClick={saveMemo}>
+          <Button onClick={() => { setShowModal(true) }}>
             保存する
           </Button>
         </HeaderControl>
@@ -97,6 +101,16 @@ export const Editor: React.FC = () => {
           <ReactMarkdown source={text} />
         </Preview>
       </Wrapper>
+      {showModal && (
+        <SaveModal
+          onSave={(title: string): void => {
+            putMemo(title, text)
+            setShowModal(false)
+          }}
+          onCancel={() => { setShowModal(false) }}
+        />
+      )}
+
     </>
   )
 }

@@ -10,17 +10,23 @@ const StyledButton = styled.button`
   height: 2rem;
   min-width: 5rem;
   padding: 0 1rem;
+  &.cancel {
+    background: white;
+    border: 1px solid gray;
+    color: gray;
+  }
 `;
 
 //このコンポーネントに渡すパラメーターの型を定義
 interface Props {
+  cancel?: boolean;
   children: string;
   onClick: () => void;
 }
 
 //React.FC<Props> のように定義すると、引数の props は Props であると型を明示できる
 export const Button: React.FC<Props> = (props) => (
-  <StyledButton onClick={props.onClick}>
+  <StyledButton onClick={props.onClick} className={props.cancel? 'cancel': ''}>
     {props.children}
   </StyledButton>
 );
