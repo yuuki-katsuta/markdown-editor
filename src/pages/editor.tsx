@@ -5,6 +5,7 @@ import * as ReactMarkdown from 'react-markdown'
 import { putMemo } from '../indexeddb/memos'
 import { Button } from '../components/button'
 import { SaveModal } from '../components/save_modal'
+import { Link } from 'react-router-dom'
 
 //スタイリングされたコンポーネント作成
 //styled.(HTMLタグ名) で生成したい HTML タグを指定して、その後続く `` 内にCSSを記述する
@@ -85,6 +86,9 @@ export const Editor: React.FC = () => {
           <Button onClick={() => { setShowModal(true) }}>
             保存する
           </Button>
+          <Link to="/history">
+            履歴を見る
+          </Link>
         </HeaderControl>
       </Header>
       <Wrapper>
@@ -110,7 +114,6 @@ export const Editor: React.FC = () => {
           onCancel={() => { setShowModal(false) }}
         />
       )}
-
     </>
   )
 }
